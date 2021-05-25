@@ -295,7 +295,7 @@ function Add-CsprojMappings
                             }
                             else
                             {
-                                Throw "${ProjectNameFromSolution}: $ReferencedProject is not found!"
+                                Throw "${ProjectNameFromSolution}: $ReferencedProject.csproj is not found!"
                             }
                         }
                     }
