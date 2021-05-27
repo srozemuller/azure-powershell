@@ -148,11 +148,10 @@ function Add-ProjectDependencies
         [string]$SolutionPath
     )
 
-    $CommonProjectsToIgnore = @("ScenarioTest.ResourceManager", "TestFx", "Tests", "Test", "src", "tools" )
-
+    $CommonProjectsToIgnore = @("ScenarioTest.ResourceManager", "TestFx", "Tests" )
     $ProjectDependencies = @()
     $Content = Get-Content -Path $SolutionPath
-    $Content | Select-String -Pattern "`"[a-zA-Z0-9.]*`"" | ForEach-Object { $_.Matches[0].Value.Trim('"') } | Where-Object { $CommonProjectsToIgnore -notcontains $_ } | ForEach-Object { $ProjectDependencies += $_ }
+    $Content | Select-String -Pattern "[`\`/]*[a-zA-Z0-9.]*.csproj" | ForEach-Object { $_.Matches[0].Value.Replace(".csproj", "") } | Where-Object { $CommonProjectsToIgnore -notcontains $_ } | ForEach-Object { $ProjectDependencies += $_ }
     $Mappings[$SolutionPath] = $ProjectDependencies
     return $Mappings
 }
